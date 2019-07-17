@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const request = require('supertest');
 const app = require('../lib/app');
-const Memer = require('../lib/models/Memer');
+const Meme = require('../lib/models/Meme');
 const mongoose = require('mongoose');
 const connect = require('../lib/utils/connect');
 
@@ -40,7 +40,7 @@ describe('app routes', () => {
   });
 
   it('gets all memes', async() => {
-    const meme = await Memer.create({  top: 'boom', image: 'url', bottom: 'bing.com' });
+    const meme = await Meme.create({  top: 'boom', image: 'url', bottom: 'bing.com' });
 
     return request(app)
       .get('/api/v1/memes')
@@ -51,7 +51,7 @@ describe('app routes', () => {
   });
 
   it('gets a meme by id', async() => {
-    const meme = await Memer.create({ top: 'boom yay', image: 'url again', bottom: 'bing.com' });
+    const meme = await Meme.create({ top: 'boom yay', image: 'url again', bottom: 'bing.com' });
 
     return request(app)
       .get(`/api/v1/memes/${meme._id}`)
@@ -67,7 +67,7 @@ describe('app routes', () => {
   });
     
   it('update a meme', async() => {
-    const meme = await Memer.create({ 
+    const meme = await Meme.create({ 
       top:'boom', 
       image: 'url', 
       bottom: 'bing.com' 
@@ -92,7 +92,7 @@ describe('app routes', () => {
   });
 
   it('deletes a meme', async() => {
-    const meme = await Memer.create({ 
+    const meme = await Meme.create({ 
       top: 'boom', 
       image: 'url', 
       bottom: 'bing.com' 
