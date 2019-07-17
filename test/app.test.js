@@ -23,20 +23,24 @@ describe('app routes', () => {
   it('create a new meme', () => {
     return request(app)
       .post('/api/v1/memes')
-      .send({ topText: 'boom', bottomText: 'no', photo: 'bing.com' })
+      .send({ 
+        top: 'boom', 
+        image: 'url', 
+        bottom: 'bing.com' 
+      })
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          topText: 'boom',
-          bottomText: 'no',
-          photo: 'bing.com',
+          top: 'boom',
+          image: 'url',
+          bottom: 'bing.com',
           __v: 0
         });
       });
   });
 
   it('gets all memes', async() => {
-    const meme = await Memer.create({  photo: 'boom.com' });
+    const meme = await Memer.create({  top: 'boom', image: 'url', bottom: 'bing.com' });
 
     return request(app)
       .get('/api/v1/memes')
@@ -47,37 +51,63 @@ describe('app routes', () => {
   });
 
   it('gets a meme by id', async() => {
-    const meme = await Memer.create({ photo: 'nope' });
+    const meme = await Memer.create({ top: 'boom yay', image: 'url again', bottom: 'bing.com' });
 
     return request(app)
       .get(`/api/v1/memes/${meme._id}`)
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          photo: 'nope',
+          top: 'boom yay',
+          image: 'url again',
+          bottom: 'bing.com',
           __v: 0
         });
       });
   });
     
   it('update a meme', async() => {
-    const meme = await Memer.create({ photo: 'boom' });
+    const meme = await Memer.create({ 
+      top:'boom', 
+      image: 'url', 
+      bottom: 'bing.com' 
+    });
 
     return request(app)
       .put(`/api/v1/memes/${meme._id}`)
-      .send({ topText: 'boom' })
+      .send({ 
+        top: 'different', 
+        image: 'different url', 
+        bottom: 'different bing.com' 
+      })
       .then(res => {
-        expect(res.body.topText).toEqual('boom');
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          top: 'different',
+          image: 'different url',
+          bottom: 'different bing.com',
+          __v: 0,
+        });
       });
   });
 
   it('deletes a meme', async() => {
-    const meme = await Memer.create({ photo: 'boom' });
+    const meme = await Memer.create({ 
+      top: 'boom', 
+      image: 'url', 
+      bottom: 'bing.com' 
+    });
 
     return request(app)
       .delete(`/api/v1/memes/${meme._id}`)
       .then(res => {
-        expect(res.body.photo).toEqual('boom');
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          top: 'boom',
+          image: 'url',
+          bottom: 'bing.com',
+          __v: 0
+        });
       });
   });
 
